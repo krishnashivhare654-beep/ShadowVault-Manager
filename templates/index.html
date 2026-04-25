@@ -2,54 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ShadowVault | Cyber Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowVault | Secure Storage</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #121212; color: #e0e0e0; }
-        .card { background-color: #1e1e1e; border: 1px solid #333; }
-        .table { color: #e0e0e0; }
+        body { background: radial-gradient(circle, #1a1a2e, #16213e); color: #00d4ff; min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .vault-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 15px; padding: 2rem; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8); }
+        .btn-cyber { background-color: #00d4ff; color: #121212; font-weight: bold; border: none; transition: 0.3s; }
+        .btn-cyber:hover { background-color: #008cba; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4); }
+        .table { color: #e0e0e0; border-color: #333; }
+        .cipher-text { font-family: 'Courier New', Courier, monospace; color: #39ff14; font-size: 0.85rem; }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">🛡️ ShadowVault Password Manager</h1>
-        
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card p-4 shadow">
-                    <h4 class="mb-3">Add New Credential</h4>
+    <div class="container py-5">
+        <header class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-uppercase tracking-widest">🛡️ ShadowVault</h1>
+            <p class="text-muted">Military-Grade AES-256 Encrypted Password Manager</p>
+        </header>
+
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-5">
+                <div class="vault-card">
+                    <h4 class="mb-3 text-white text-center">Lock New Credential</h4>
                     <form action="/add" method="POST">
-                        <input type="text" name="website" class="form-control mb-2" placeholder="Website Name" required>
-                        <input type="text" name="username" class="form-control mb-2" placeholder="Username/Email" required>
-                        <input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
-                        <button type="submit" class="btn btn-success w-100">Encrypt & Store</button>
+                        <div class="mb-3">
+                            <input type="text" name="website" class="form-control bg-dark text-white border-secondary" placeholder="Website / App Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" name="username" class="form-control bg-dark text-white border-secondary" placeholder="Username or Email" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" name="password" class="form-control bg-dark text-white border-secondary" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-cyber w-100">ENCRYPT & VAULT</button>
                     </form>
                 </div>
             </div>
         </div>
 
-        <div class="mt-5">
-            <h3>Stored Encrypted Credentials</h3>
-            <table class="table table-dark table-hover mt-3">
-                <thead>
-                    <tr>
-                        <th>Website</th>
-                        <th>Username</th>
-                        <th>Ciphertext (Encrypted)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for entry in entries %}
-                    <tr>
-                        <td>{{ entry.website }}</td>
-                        <td>{{ entry.username }}</td>
-                        <td class="text-break" style="font-family: monospace; color: #00ff00;">
-                            {{ entry.encrypted_password }}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="vault-card">
+            <h4 class="mb-4 text-white">Stored Vault Entries</h4>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Identity</th>
+                            <th>Ciphertext Signature (AES)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in entries %}
+                        <tr>
+                            <td class="fw-bold">{{ entry.website }}</td>
+                            <td>{{ entry.username }}</td>
+                            <td class="cipher-text text-truncate" style="max-width: 300px;">{{ entry.encrypted_password }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>
