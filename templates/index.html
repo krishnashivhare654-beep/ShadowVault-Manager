@@ -8,78 +8,50 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        :root { --primary: #00f2fe; --secondary: #a04efd; --glow: rgba(0, 242, 254, 0.4); }
-        
+        :root { --primary: #00f2fe; --secondary: #a04efd; --glow: rgba(0, 242, 254, 0.6); }
         body { background: #050505; color: white; margin: 0; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
 
-        /* --- Ambient Lighting Background --- */
-        #ambient-bg {
-            position: fixed; top: 0; left: 0; z-index: -2; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #0a0a12 0%, #000 100%);
-        }
-        .light-blob {
-            position: absolute; z-index: -1; border-radius: 50%; filter: blur(80px); opacity: 0.2;
-            animation: move-blobs 15s infinite alternate ease-in-out;
-        }
+        /* Ambient Lighting Background */
+        #ambient-bg { position: fixed; top: 0; left: 0; z-index: -2; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, #0a0a12 0%, #000 100%); }
+        .light-blob { position: absolute; z-index: -1; border-radius: 50%; filter: blur(80px); opacity: 0.2; animation: move-blobs 15s infinite alternate ease-in-out; }
         .blob-1 { background-color: #00f2fe; width: 400px; height: 400px; top: -10%; left: -10%; }
         .blob-2 { background-color: #a04efd; width: 500px; height: 500px; bottom: -10%; right: -10%; animation-delay: 2s; }
-        .blob-3 { background-color: #ff0055; width: 300px; height: 300px; top: 40%; left: 30%; animation-delay: 5s; }
+        @keyframes move-blobs { 0% { transform: translate(0, 0); } 100% { transform: translate(150px, 100px); } }
 
-        @keyframes move-blobs {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(150px, 100px); }
-        }
-
-        /* --- Navbar --- */
         .navbar { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0, 242, 254, 0.2); }
-        .navbar-brand { cursor: pointer; transition: 0.3s; }
-        .navbar-brand:hover { text-shadow: 0 0 15px var(--primary); }
+        .navbar-brand { cursor: pointer; }
 
         /* --- Welcome Section --- */
-        #welcome-section {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 90vh; text-align: center; transition: 0.5s ease-in-out;
-        }
-        .hero-title { font-size: 4.5rem; font-weight: 900; letter-spacing: 4px; color: var(--primary); margin-bottom: 10px; }
-        .hero-subtitle { font-family: monospace; color: #666; margin-bottom: 40px; }
-        .btn-enter {
-            background: transparent; border: 2px solid var(--primary); color: var(--primary);
-            padding: 12px 40px; border-radius: 50px; font-weight: bold; letter-spacing: 2px;
-            transition: 0.4s;
-        }
-        .btn-enter:hover { background: var(--primary); color: black; box-shadow: 0 0 30px var(--glow); }
+        #welcome-section { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 85vh; text-align: center; }
+        .hero-title { font-size: 4.5rem; font-weight: 900; color: var(--primary); text-shadow: 0 0 20px rgba(0, 242, 254, 0.3); }
 
-        /* --- Vault Section (Hidden by Default) --- */
-        #vault-section { display: none; padding-top: 50px; padding-bottom: 80px; }
-        
+        /* --- Vault Card with BIG Zoom --- */
+        #vault-section { display: none; padding: 60px 0; }
         .vault-card {
             background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(0, 242, 254, 0.1);
-            border-radius: 20px; padding: 30px; backdrop-filter: blur(20px);
+            border-radius: 20px; padding: 40px; backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .vault-card:hover { transform: scale(1.05); border-color: var(--primary); box-shadow: 0 0 50px var(--glow); }
 
-        /* --- Inputs --- */
         .input-group-custom { position: relative; margin-bottom: 30px; }
         .input-group-custom input {
             background: transparent; border: none; border-bottom: 2px solid #333;
             color: white; width: 100%; padding: 10px 0; outline: none; transition: 0.4s;
         }
         .input-group-custom label { position: absolute; top: 10px; left: 0; color: #666; transition: 0.4s; pointer-events: none; }
-        .input-group-custom input:focus ~ label, .input-group-custom input:valid ~ label { top: -20px; font-size: 0.8rem; color: var(--primary); }
+        .input-group-custom input:focus ~ label, .input-group-custom input:valid ~ label { top: -25px; font-size: 0.8rem; color: var(--primary); }
         .input-group-custom input:focus { border-bottom-color: var(--primary); }
 
-        .btn-encrypt { background: linear-gradient(45deg, var(--secondary), var(--primary)); border: none; color: black; font-weight: bold; padding: 12px; border-radius: 10px; transition: 0.3s; }
-        .btn-encrypt:hover { transform: translateY(-2px); box-shadow: 0 5px 15px var(--glow); }
+        .btn-encrypt { background: linear-gradient(45deg, var(--secondary), var(--primary)); border: none; color: black; font-weight: bold; padding: 14px; border-radius: 12px; transition: 0.3s; }
+        .btn-encrypt:hover { transform: translateY(-3px); box-shadow: 0 10px 20px var(--glow); }
 
         .cipher-code { color: #39ff14; font-family: monospace; font-size: 0.85rem; word-break: break-all; }
     </style>
 </head>
 <body>
 
-    <div id="ambient-bg">
-        <div class="light-blob blob-1"></div>
-        <div class="light-blob blob-2"></div>
-        <div class="light-blob blob-3"></div>
-    </div>
+    <div id="ambient-bg"><div class="light-blob blob-1"></div><div class="light-blob blob-2"></div></div>
 
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
@@ -94,8 +66,7 @@
 
     <div id="welcome-section" class="container">
         <h1 class="hero-title">PASSWORD MANAGER</h1>
-        <p class="hero-subtitle">[ AES-256 ENCRYPTED DATABASE ]</p>
-        <button class="btn-enter" onclick="showVault()">ACCESS VAULT <i class="fas fa-arrow-right ms-2"></i></button>
+        <button class="btn btn-outline-info px-5 py-3 mt-4 rounded-pill fw-bold" onclick="showVault()">ACCESS VAULT</button>
     </div>
 
     <div id="vault-section" class="container">
@@ -103,17 +74,17 @@
             <div class="col-md-5">
                 <div class="vault-card text-center shadow-lg">
                     <h4 class="mb-4 text-info">Add New Entry</h4>
-                    <form action="/add" method="POST">
+                    <form action="/add" method="POST" id="vaultForm">
                         <div class="input-group-custom text-start">
-                            <input type="text" name="website" required autocomplete="off">
+                            <input type="text" name="website" id="webIn" required autocomplete="off">
                             <label>Website Name</label>
                         </div>
                         <div class="input-group-custom text-start">
-                            <input type="text" name="username" required autocomplete="off">
+                            <input type="text" name="username" id="userIn" required autocomplete="off">
                             <label>Username</label>
                         </div>
                         <div class="input-group-custom text-start">
-                            <input type="password" name="password" required autocomplete="off">
+                            <input type="password" name="password" id="passIn" required autocomplete="off">
                             <label>Password</label>
                         </div>
                         <button type="submit" class="btn btn-encrypt w-100">SECURE & SAVE</button>
@@ -126,9 +97,7 @@
             <h4 class="mb-4 text-info"><i class="fas fa-database"></i> Stored Credentials</h4>
             <div class="table-responsive">
                 <table class="table table-dark table-hover">
-                    <thead>
-                        <tr><th>Service</th><th>Identity</th><th>AES Ciphertext</th></tr>
-                    </thead>
+                    <thead><tr><th>Service</th><th>Identity</th><th>AES Ciphertext</th></tr></thead>
                     <tbody>
                         {% for entry in entries %}
                         <tr>
@@ -146,46 +115,40 @@
     <div class="modal fade" id="aboutModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content bg-dark border-info text-white">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title text-info">Architecture & Security</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>ShadowVault</strong> is a zero-knowledge password manager. This means your data is encrypted locally using the **AES-256 (Advanced Encryption Standard)** before it even touches the database.</p>
-                    <p>The system generates a unique <code>master.key</code> on your computer. Without this key, the stored data is just a random string of characters (Ciphertext). Even if an attacker gains access to your database file, they cannot retrieve your original passwords.</p>
-                    <hr class="border-secondary">
-                    <p class="text-center text-muted">Created by Krishna Shivare - B.Tech Student & Cybersecurity Enthusiast.</p>
-                </div>
+                <div class="modal-header border-secondary"><h5 class="modal-title">Cryptographic Architecture</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+                <div class="modal-body"><p>ShadowVault uses <strong>AES-256 Symmetric Encryption</strong>. Your data is scrambled into ciphertext before storage, ensuring that only those with the <code>master.key</code> can read it. Built by Krishna Shivare.</p></div>
             </div>
         </div>
     </div>
 
     <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark border-warning text-white">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title text-warning">Quick Guide</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>1. Click <strong>Access Vault</strong> to see the dashboard.</p>
-                    <p>2. Fill in the service details and click <strong>Secure & Save</strong>.</p>
-                    <p>3. Your data will be instantly encrypted and visible in the table below.</p>
-                </div>
-            </div>
-        </div>
+        <div class="modal-dialog modal-dialog-centered"><div class="modal-content bg-dark border-warning text-white">
+            <div class="modal-header border-secondary"><h5 class="modal-title text-warning">Quick Guide</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body"><p>1. Access the Vault. 2. Enter details. 3. Click Secure & Save. Your password will be stored as an unreadable green cipher.</p></div>
+        </div></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function showVault() {
-            document.getElementById('welcome-section').style.display = 'none';
-            document.getElementById('vault-section').style.display = 'block';
-        }
-        function goHome() {
-            document.getElementById('welcome-section').style.display = 'flex';
-            document.getElementById('vault-section').style.display = 'none';
-        }
+        function showVault() { document.getElementById('welcome-section').style.display = 'none'; document.getElementById('vault-section').style.display = 'block'; }
+        function goHome() { document.getElementById('welcome-section').style.display = 'flex'; document.getElementById('vault-section').style.display = 'none'; }
+
+        // Custom Validation Messages
+        const form = document.getElementById('vaultForm');
+        form.addEventListener('submit', (e) => {
+            const web = document.getElementById('webIn');
+            const user = document.getElementById('userIn');
+            const pass = document.getElementById('passIn');
+
+            if (!web.value) { web.setCustomValidity('Please fill in the Website name!'); web.reportValidity(); e.preventDefault(); }
+            else if (!user.value) { user.setCustomValidity('Username is required!'); user.reportValidity(); e.preventDefault(); }
+            else if (!pass.value) { pass.setCustomValidity('Please enter a password!'); pass.reportValidity(); e.preventDefault(); }
+        });
+
+        // Clear validity on input
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => input.setCustomValidity(''));
+        });
     </script>
 </body>
 </html>
