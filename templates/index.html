@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShadowVault | Cyber Rain Security</title>
+    <title>ShadowVault | Multicolour Cyber Security</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        :root { --primary: #00f2fe; --secondary: #a04efd; --glow: rgba(0, 242, 254, 0.4); }
+        :root { --primary: #00f2fe; --secondary: #a04efd; --accent: #ff0055; --glow: rgba(0, 242, 254, 0.4); }
         
         body { background: #010101; color: white; margin: 0; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; height: 100vh; }
 
-        /* --- Cyber Rain Background Logic --- */
+        /* --- Multicolour Neon Rain --- */
         #cyber-rain {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2; pointer-events: none; overflow: hidden;
@@ -20,44 +20,50 @@
         }
         .rain-drop {
             position: absolute; top: -100px;
-            background: linear-gradient(180deg, transparent, var(--primary));
-            width: 2px; height: 100px;
-            opacity: 0.2;
+            width: 2px; height: 120px;
+            opacity: 0.3;
             animation: rain-fall 2s linear infinite;
         }
         @keyframes rain-fall {
-            0% { transform: translateY(0); opacity: 0.2; }
-            50% { opacity: 0.4; }
+            0% { transform: translateY(0); opacity: 0.3; }
             100% { transform: translateY(110vh); opacity: 0; }
         }
 
         /* --- Navbar --- */
-        .navbar { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0, 242, 254, 0.2); z-index: 10; }
-        .nav-logo-link { text-decoration: none; }
-        .navbar-brand { font-size: 1.5rem; letter-spacing: 2px; cursor: pointer; }
-        .nav-link { color: rgba(255, 255, 255, 0.7) !important; margin: 0 10px; transition: 0.3s; font-weight: 500; }
+        .navbar { background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0, 242, 254, 0.2); }
+        .navbar-brand { font-size: 1.5rem; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
+        .navbar-brand:hover { text-shadow: 0 0 10px var(--primary); }
+        .nav-link { color: rgba(255, 255, 255, 0.8) !important; margin: 0 10px; font-weight: 500; }
         .nav-link:hover { color: var(--primary) !important; transform: translateY(-2px); }
 
         /* --- Welcome Hero --- */
-        #welcome-section { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 90vh; text-align: center; }
+        #welcome-section { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 85vh; text-align: center; }
         .hero-title { font-size: 4.5rem; font-weight: 900; letter-spacing: 4px; color: var(--primary); text-shadow: 0 0 20px var(--glow); }
 
-        /* --- Vault Card with Interactive Lighting --- */
-        #vault-section { display: none; padding: 60px 0; overflow-y: auto; height: calc(100vh - 70px); }
+        /* --- Vault Section with Fixed Scaling --- */
+        #vault-section { display: none; padding: 40px 20px; overflow-y: auto; height: calc(100vh - 70px); }
+        
         .vault-card {
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(0, 242, 254, 0.1);
-            border-radius: 20px; padding: 40px; backdrop-filter: blur(20px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(0, 242, 254, 0.15);
+            border-radius: 20px; padding: 40px; backdrop-filter: blur(25px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 0 auto;
+            max-width: 95%; /* Prevents side cutting */
         }
-        .vault-card:hover { transform: scale(1.05); border-color: var(--primary); box-shadow: 0 0 50px var(--glow); }
+        .vault-card:hover { 
+            transform: scale(1.03); /* Slightly less zoom to avoid cutting */
+            border-color: var(--primary); 
+            box-shadow: 0 0 60px rgba(0, 242, 254, 0.3); 
+        }
 
-        .input-group-custom { position: relative; margin-bottom: 30px; }
+        /* --- Input Fields --- */
+        .input-group-custom { position: relative; margin-bottom: 30px; text-align: left; }
         .input-group-custom input {
             background: transparent; border: none; border-bottom: 2px solid #333;
             color: white; width: 100%; padding: 10px 0; outline: none; transition: 0.4s;
         }
         .input-group-custom label { position: absolute; top: 10px; left: 0; color: #666; transition: 0.4s; pointer-events: none; }
-        .input-group-custom input:focus ~ label, .input-group-custom input:valid ~ label { top: -20px; font-size: 0.8rem; color: var(--primary); }
+        .input-group-custom input:focus ~ label, .input-group-custom input:valid ~ label { top: -20px; font-size: 0.85rem; color: var(--primary); }
         .input-group-custom input:focus { border-bottom-color: var(--primary); }
 
         .btn-encrypt { 
@@ -66,6 +72,9 @@
         }
         .btn-encrypt:hover { transform: translateY(-3px); box-shadow: 0 10px 20px var(--glow); }
 
+        /* --- Table Styling --- */
+        .table-responsive { overflow: visible; } /* Fix for zoom cutting */
+        .table { --bs-table-bg: transparent; color: #e0e0e0; border-color: #222; }
         .cipher-code { color: #39ff14; font-family: monospace; font-size: 0.85rem; word-break: break-all; }
     </style>
 </head>
@@ -84,44 +93,44 @@
         </div>
     </nav>
 
-    <div id="welcome-section" class="container">
+    <div id="welcome-section" class="container text-center">
         <h1 class="hero-title">PASSWORD MANAGER</h1>
         <button class="btn btn-outline-info px-5 py-3 mt-4 rounded-pill fw-bold" onclick="showVault()">ACCESS VAULT</button>
     </div>
 
     <div id="vault-section" class="container">
         <div class="row justify-content-center">
-            <div class="col-md-5">
-                <div class="vault-card text-center shadow-lg">
-                    <h4 class="mb-4 text-info">Add New Entry</h4>
+            <div class="col-md-6">
+                <div class="vault-card text-center">
+                    <h4 class="mb-4 text-info"><i class="fas fa-plus-circle"></i> Add New Credential</h4>
                     <form action="/add" method="POST" id="vaultForm">
-                        <div class="input-group-custom text-start">
+                        <div class="input-group-custom">
                             <input type="text" name="website" id="webIn" required autocomplete="off">
                             <label>Website Name</label>
                         </div>
-                        <div class="input-group-custom text-start">
+                        <div class="input-group-custom">
                             <input type="text" name="username" id="userIn" required autocomplete="off">
-                            <label>Username</label>
+                            <label>Username / Email</label>
                         </div>
-                        <div class="input-group-custom text-start">
+                        <div class="input-group-custom">
                             <input type="password" name="password" id="passIn" required autocomplete="off">
                             <label>Password</label>
                         </div>
-                        <button type="submit" class="btn btn-encrypt w-100">SECURE & SAVE</button>
+                        <button type="submit" class="btn btn-encrypt w-100">ENCRYPT & VAULT</button>
                     </form>
                 </div>
             </div>
         </div>
 
         <div class="mt-5 vault-card">
-            <h4 class="mb-4 text-info"><i class="fas fa-database"></i> Stored Credentials</h4>
+            <h4 class="mb-4 text-info"><i class="fas fa-database"></i> Secure Vault Storage</h4>
             <div class="table-responsive">
                 <table class="table table-dark table-hover">
-                    <thead><tr><th>Service</th><th>Identity</th><th>AES Ciphertext</th></tr></thead>
+                    <thead><tr><th>Service</th><th>Identity</th><th>AES Ciphertext Signature</th></tr></thead>
                     <tbody>
                         {% for entry in entries %}
                         <tr>
-                            <td>{{ entry.website }}</td>
+                            <td class="fw-bold">{{ entry.website }}</td>
                             <td>{{ entry.username }}</td>
                             <td class="cipher-code">{{ entry.encrypted_password }}</td>
                         </tr>
@@ -135,24 +144,14 @@
     <div class="modal fade" id="aboutModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content bg-dark border-info text-white">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title">Cryptographic Architecture: ShadowVault</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
+                <div class="modal-header border-secondary"><h5 class="modal-title">System Architecture</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body">
-                    <h6>1. AES-256 Symmetric Encryption</h6>
-                    <p>Utilizing Python's `cryptography` library (specifically the `cryptography.fernet` module), ShadowVault implements the global standard **AES-256 (Advanced Encryption Standard)** in symmetric key mode.</p>
-                    <ul>
-                        <li><strong>Plaintext Input:</strong> The password string the user enters.</li>
-                        <li><strong>The Key:</strong> A unique <code>master.key</code> file is generated locally. Fernandez handles Key Derivation automatically.</li>
-                        <li><strong>Symmetric Nature:</strong> The *same* key file is required for both encrypting and decrypting the data. Fernet handles IVs and Authentication Tags.</li>
-                    </ul>
-
-                    <h6>2. Local Database & Zero-Knowledge architecture</h6>
-                    <p>The backend is managed via Flask and **SQLAlchemy** connected to an SQLite instance (`instance/vault.db`). The architecture follows the **Zero-Knowledge** model: the applicationdeveloper (KrishnaShivare) can never know or retrieve a user's master key. Only those with physical access to the local <code>master.key</code> can read the ciphertext.</p>
-                    
+                    <h6>🛡️ Cryptographic Engine</h6>
+                    <p>ShadowVault uses <strong>AES-256 Symmetric Encryption</strong> via Python's <code>cryptography.fernet</code>. This ensures that every entry is cryptographically signed and encrypted before being written to the database.</p>
+                    <h6>🔑 Zero-Knowledge Policy</h6>
+                    <p>The system is designed so that data can only be decrypted using the unique <code>master.key</code> file generated locally. This ensures total privacy.</p>
                     <hr class="border-secondary">
-                    <p class="text-center text-muted">A B.Tech Cybersecurity Portfolio Project developed by Krishna Shivare.</p>
+                    <p class="text-center text-muted small">Developed by Krishna Shivare - Portfolio 2026</p>
                 </div>
             </div>
         </div>
@@ -161,17 +160,13 @@
     <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content bg-dark border-warning text-white">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title text-warning">Quick Start Guide</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
+                <div class="modal-header border-secondary"><h5 class="modal-title text-warning">How to Use ShadowVault</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body">
                     <ol>
-                        <li>Access the **Vault** section via the button or navbar.</li>
-                        <li>Enter credential details (e.g., Google, user@gmail.com, secretpass).</li>
-                        <li>Click **Secure & Save** to initiate encryption.</li>
-                        <li>The entry will be stored in the database. The original password is lost; only the green unreadable ciphertext is retained.</li>
-                        <li>Your `master.key` file in the root folder is the ONLY key to this vault. Keep it safe.</li>
+                        <li>Click <strong>Vault</strong> in the top menu to access your data.</li>
+                        <li>Fill in the fields: Website Name, Username, and Password.</li>
+                        <li>Click <strong>Encrypt & Vault</strong>. Your password will be converted to a secure cipher.</li>
+                        <li>The table below will show the service and the scrambled code.</li>
                     </ol>
                 </div>
             </div>
@@ -183,26 +178,22 @@
         function showVault() { document.getElementById('welcome-section').style.display = 'none'; document.getElementById('vault-section').style.display = 'block'; }
         function goHome() { document.getElementById('welcome-section').style.display = 'flex'; document.getElementById('vault-section').style.display = 'none'; }
 
-        // --- Cyber Rain Generator ---
+        // --- Multicolour Neon Rain Logic ---
         const rainContainer = document.getElementById('cyber-rain');
-        const numDrops = 150; // Adjust for density
-        const speedMultiplier = 1.5; // Adjust for velocity
-
-        for (let i = 0; i < numDrops; i++) {
+        const colours = ['#00f2fe', '#a04efd', '#ff0055', '#39ff14'];
+        
+        for (let i = 0; i < 150; i++) {
             const drop = document.createElement('div');
+            const colour = colours[Math.floor(Math.random() * colours.length)];
             drop.classList.add('rain-drop');
             drop.style.left = Math.random() * 100 + '%';
-            
-            // Random delay so they don't all fall together
+            drop.style.background = `linear-gradient(180deg, transparent, ${colour})`;
             drop.style.animationDelay = Math.random() * 2 + 's';
-            
-            // Random duration for natural variations
-            drop.style.animationDuration = (Math.random() + 0.5) / speedMultiplier + 's';
-            
+            drop.style.animationDuration = (Math.random() * 1 + 1) + 's';
             rainContainer.appendChild(drop);
         }
 
-        // --- Custom Validation Logic ---
+        // --- Custom Validation ---
         const form = document.getElementById('vaultForm');
         form.addEventListener('submit', (e) => {
             const web = document.getElementById('webIn');
