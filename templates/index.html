@@ -3,71 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShadowVault | Elite Manager</title>
+    <title>ShadowVault | Elite Security</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        :root { --primary: #00f2fe; --secondary: #4facfe; }
+        :root { --primary: #00f2fe; --secondary: #4facfe; --glow: rgba(0, 242, 254, 0.5); }
         
         body { 
-            background: #0a0a0a; 
+            background: #050505; 
             color: white; 
             overflow-x: hidden;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
-        /* 3D Background Effect */
+        /* 3D Interactive Background */
         #bg-canvas {
             position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%;
             background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), #1a1a2e 0%, #000 100%);
         }
 
-        /* Navigation Bar */
+        /* Navbar Styling */
         .navbar {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
         }
-        .nav-link { color: white !important; margin: 0 15px; transition: 0.3s; }
-        .nav-link:hover { color: var(--primary) !important; transform: scale(1.1); }
+        .nav-link { color: white !important; margin: 0 10px; transition: 0.3s; font-weight: 500; }
+        .nav-link:hover { color: var(--primary) !important; transform: translateY(-2px); }
 
-        /* Modern Glass Card */
+        /* Glassmorphism Vault Card */
         .vault-card {
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(0, 242, 254, 0.3);
-            border-radius: 24px;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            border-radius: 20px;
             padding: 40px;
-            backdrop-filter: blur(20px);
-            transition: all 0.5s ease;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.1);
+            backdrop-filter: blur(25px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
         .vault-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 0 40px rgba(0, 242, 254, 0.3);
+            transform: scale(1.02);
             border-color: var(--primary);
+            box-shadow: 0 0 40px var(--glow);
         }
 
-        /* Animated Input Boxes */
-        .input-group { position: relative; margin-bottom: 30px; }
-        .input-group input {
-            background: transparent; border: none; border-bottom: 2px solid #333;
+        /* Floating Label Inputs */
+        .input-group-custom { position: relative; margin-bottom: 35px; }
+        .input-group-custom input {
+            background: transparent; border: none; border-bottom: 2px solid #444;
             color: white; width: 100%; padding: 10px 0; font-size: 1.1rem; outline: none; transition: 0.4s;
         }
-        .input-group label {
+        .input-group-custom label {
             position: absolute; top: 10px; left: 0; pointer-events: none;
-            transition: 0.4s; color: #666;
+            transition: 0.4s; color: #888;
         }
-        .input-group input:focus ~ label, .input-group input:valid ~ label {
-            top: -20px; font-size: 0.85rem; color: var(--primary);
+        .input-group-custom input:focus ~ label, .input-group-custom input:valid ~ label {
+            top: -25px; font-size: 0.9rem; color: var(--primary); font-weight: bold;
         }
-        .input-group input:focus { border-bottom: 2px solid var(--primary); }
+        .input-group-custom input:focus { border-bottom: 2px solid var(--primary); }
 
+        /* Cyber Button */
         .btn-encrypt {
             background: linear-gradient(45deg, var(--secondary), var(--primary));
-            border: none; border-radius: 12px; padding: 12px; font-weight: bold;
-            color: black; transition: 0.4s;
+            border: none; border-radius: 10px; padding: 14px; font-weight: bold;
+            color: #000; text-transform: uppercase; letter-spacing: 1px; transition: 0.4s;
         }
-        .btn-encrypt:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--primary); }
+        .btn-encrypt:hover { transform: translateY(-3px); box-shadow: 0 10px 20px var(--glow); }
+
+        /* Modern Table */
+        .table { --bs-table-bg: transparent; color: #e0e0e0; border-color: #333; }
+        .cipher-code { color: #39ff14; font-family: 'Consolas', monospace; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -76,11 +82,11 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">🛡️ SHADOWVAULT</a>
+            <a class="navbar-brand fw-bold text-info" href="/">🛡️ SHADOWVAULT</a>
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a>
-                <a class="nav-link" href="#"><i class="fas fa-info-circle"></i> About</a>
-                <a class="nav-link" href="#"><i class="fas fa-question-circle"></i> Help</a>
+                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal"><i class="fas fa-info-circle"></i> About</a>
+                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#helpModal"><i class="fas fa-question-circle"></i> Help</a>
             </div>
         </div>
     </nav>
@@ -88,19 +94,19 @@
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="vault-card text-center">
-                    <h2 class="mb-5"><i class="fas fa-lock"></i> LOCK DATA</h2>
+                <div class="vault-card text-center mt-4">
+                    <h2 class="mb-5 text-white"><i class="fas fa-user-shield text-info"></i> LOCK DATA</h2>
                     <form action="/add" method="POST">
-                        <div class="input-group">
-                            <input type="text" name="website" required>
+                        <div class="input-group-custom">
+                            <input type="text" name="website" required autocomplete="off">
                             <label>Website Name</label>
                         </div>
-                        <div class="input-group">
-                            <input type="text" name="username" required>
+                        <div class="input-group-custom">
+                            <input type="text" name="username" required autocomplete="off">
                             <label>Username / Email</label>
                         </div>
-                        <div class="input-group">
-                            <input type="password" name="password" required>
+                        <div class="input-group-custom">
+                            <input type="password" name="password" required autocomplete="off">
                             <label>Password</label>
                         </div>
                         <button type="submit" class="btn btn-encrypt w-100">INITIALIZE ENCRYPTION</button>
@@ -110,26 +116,66 @@
         </div>
 
         <div class="mt-5 vault-card">
-            <h3 class="mb-4"><i class="fas fa-database"></i> Secure Database</h3>
-            <table class="table table-dark">
-                <thead>
-                    <tr><th>Service</th><th>Identity</th><th>AES Ciphertext</th></tr>
-                </thead>
-                <tbody>
-                    {% for entry in entries %}
-                    <tr>
-                        <td>{{ entry.website }}</td>
-                        <td>{{ entry.username }}</td>
-                        <td class="text-info" style="font-family: monospace;">{{ entry.encrypted_password }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <h3 class="mb-4 text-info"><i class="fas fa-server"></i> Encrypted Vault Entries</h3>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Website</th>
+                            <th>Identity</th>
+                            <th>AES Ciphertext Signature</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in entries %}
+                        <tr>
+                            <td class="fw-bold">{{ entry.website }}</td>
+                            <td>{{ entry.username }}</td>
+                            <td class="cipher-code">{{ entry.encrypted_password }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
+    <div class="modal fade" id="aboutModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark border-info text-white">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title"><i class="fas fa-microchip text-info"></i> Technical Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>ShadowVault uses <strong>AES-256 Symmetric Encryption</strong>. Your data is scrambled into a ciphertext that is impossible to read without the unique <code>master.key</code> generated on your machine.</p>
+                    <p>Built by <strong>Krishna Shivare</strong> for cybersecurity research.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark border-warning text-white">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title"><i class="fas fa-lightbulb text-warning"></i> User Guide</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <ol>
+                        <li>Enter credential details in the "Lock Data" form.</li>
+                        <li>Click "Initialize Encryption" to save.</li>
+                        <li>Your password will appear as a <strong>Green Ciphertext</strong> in the database.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Mouse Move Effect for 3D Background
+        // Interactive 3D Background Mouse Logic
         document.addEventListener('mousemove', e => {
             const x = (e.clientX / window.innerWidth) * 100;
             const y = (e.clientY / window.innerHeight) * 100;
